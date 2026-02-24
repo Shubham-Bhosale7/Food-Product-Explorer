@@ -11,7 +11,7 @@ function CategoryFilter({ onCategoryChange, selectedCategory }) {
   };
 
   if (loading) {
-    return <div className="text-sm text-gray-500">Loading categories...</div>;
+    return <div className="text-sm text-white">Loading categories...</div>;
   }
 
   if (error) {
@@ -22,7 +22,7 @@ function CategoryFilter({ onCategoryChange, selectedCategory }) {
     <div className="relative w-full sm:w-64">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium flex items-center justify-between hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="w-75 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium flex items-center justify-between hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-green-500"
       >
         <span>
           {selectedCategory
@@ -64,7 +64,7 @@ function CategoryFilter({ onCategoryChange, selectedCategory }) {
               className={`w-full text-left px-4 py-3 hover:bg-green-50 transition border-t border-gray-200 flex items-center justify-between ${
                 selectedCategory === category.id
                   ? "bg-green-100 text-green-700 font-semibold"
-                  : ""
+                  : "bg-white text-gray-700"
               }`}
             >
               <span>{category.name}</span>

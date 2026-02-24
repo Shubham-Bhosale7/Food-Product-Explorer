@@ -1,33 +1,135 @@
-# Food Product Explorer — Layout Fix
+Food Explorer – Development Journey
 
-This repository demonstrates a small layout change that arranges product cards in a responsive grid on the home page.
+This project is a React-based food product search application using the OpenFoodFacts API. Users can search by product name or barcode, view product details, and load more products using pagination.
 
-Summary of the change
+While building this project, I faced multiple issues. Below are 10 main problems I encountered and how I solved them.
 
-- File modified: [src/Pages/HomePage.jsx](src/Pages/HomePage.jsx)
-- Change: Wrapped the product list in a responsive Tailwind CSS grid container so cards display in rows and columns instead of stacking vertically.
+1. Duplicate Key Error While Rendering Products
 
-Method used
+Problem:
+React showed the warning:
+“Encountered two children with the same key”.
 
-- Inspected the `HomePage.jsx` component and found it returned a raw array of `ProductCard` elements which caused a vertical stack.
-- Added a parent `div` with Tailwind grid classes: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 p-4` to provide responsive columns and spacing.
-- Kept the `ProductCard` component as-is; its internal sizing works together with the grid for consistent card sizing.
+Cause:
+Some products from the API had duplicate or missing IDs.
 
-How to verify
+Solution:
+I changed the key to use a more stable value like product.code. I also made sure the key is always unique before rendering.
 
-- Start the development server (for example `npm start` or `yarn start`).
-- Open the app in a browser and navigate to the home page.
-- Resize the browser to observe the responsive column changes (1 → 2 → 3 → 6 columns at breakpoints).
+Learning:
+Keys must always be unique and stable in React lists.
 
-Notes
+2. Search Results Not Resetting Properly
 
-- Tailwind CSS is used for layout; ensure Tailwind is configured and the project build is working.
-- If you prefer different column counts, change the grid classes in [src/Pages/HomePage.jsx](src/Pages/HomePage.jsx).
+Problem:
+When I searched a new product, old results were still mixed with new results.
 
-If you want, I can also adjust the `ProductCard` widths to rely fully on the grid (remove its internal width classes) — tell me which approach you prefer.
+Cause:
+I was not clearing the products array when the search query changed.
 
-1) First I studied the endpoints and got endpoints for
-  1) Random Products for HomePage - 
-    [text](https://world.openfoodfacts.org/cgi/search.pl?search_terms=&json=true&page={randomNumber}&page_size=20)
+Solution:
+I added a useEffect that resets products and page number when searchQuery changes.
 
-  2) Product from barcode
+useEffect(() => {
+  setProducts([]);
+  setPage(1);
+}, [searchQuery]);
+
+Learning:
+Whenever a dependency changes (like search input), related state must be reset properly.
+
+3. Pagination Using Old Page Number After Search
+
+Problem:
+If I was on page 5 and searched something new, it fetched page 5 of the new search instead of page 1.
+
+Solution:
+Reset page to 1 when search changes.
+
+Learning:
+Search and pagination states must be connected carefully.
+
+4. Random Page Logic Causing Inconsistent Behavior
+
+Problem:
+I tried using a random page number for homepage products, but it caused unpredictable results.
+
+Cause:
+Random number was recalculating on re-renders.
+
+Solution:
+I simplified the logic and controlled page state properly instead of recalculating random values.
+
+Learning:
+Avoid unnecessary randomness in state unless properly handled.
+
+5. Incorrect Routing Structure for Search
+
+Problem:
+I was confused whether to show search results on homepage or a separate page.
+
+Solution:
+I decided to use query parameters like:
+
+/?search=chocolate
+
+Then I used useSearchParams to extract the search value.
+
+Learning:
+Clear routing structure makes the app simpler and easier to manage.
+
+6. Confusion Between Barcode and Name Search
+
+Problem:
+The app needed to handle both barcode (numbers) and name (text) searches.
+
+Solution:
+I added a check:
+
+If input contains only digits → treat as barcode.
+
+Otherwise → treat as product name.
+
+This helped in routing correctly.
+
+Learning:
+Input validation improves user experience and logic clarity.
+
+7. Forgot to Import useEffect
+
+Problem:
+I used useEffect but forgot to import it.
+
+Solution:
+Fixed the import statement.
+
+Learning:
+Small mistakes can break the app. Always check imports carefully.
+
+8. API URL Safety Issue
+
+Problem:
+In some cases, the API URL could become an empty string.
+
+Solution:
+Added a guard before making the API call to ensure the URL is valid.
+
+Learning:
+Always validate external requests before calling APIs.
+
+9. Handling State for Load More (Pagination)
+
+Problem:
+New products were either replacing old ones or duplicating incorrectly.
+
+Solution:
+I added conditional logic:
+
+If page is 1 → replace products
+
+If page > 1 → append products
+
+This fixed duplication and overwriting issues.
+
+Learning:
+Pagination requires careful state handling.

@@ -33,8 +33,8 @@ function ProductDetailPage() {
   } = product;
 
   const image =
-    selected_images?.front?.display?.fr ||
     selected_images?.front?.display?.en ||
+    selected_images?.front?.display?.fr ||
     product.image_front_url ||
     randomFoodImage;
 
@@ -56,6 +56,8 @@ function ProductDetailPage() {
   }
 
   // Labels (fallback to tags)
+  //   const labelList1 =
+
   const labelList =
     typeof labels === "string" && labels.length
       ? labels.split(",").map((s) => s.trim())

@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const useProductData = (type, searchQuery) => {
+const useProductData = (type, searchQuery, categoryFilter) => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  // Reset when search changes
+  // Reset when search or category changes
   useEffect(() => {
     setProducts([]);
     setPage(1);
-  }, [searchQuery]);
+  }, [searchQuery, categoryFilter]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,9 +20,21 @@ const useProductData = (type, searchQuery) => {
         let url = "";
 
         if (type === "productsFromHomePage") {
-          url = searchQuery
-            ? `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${searchQuery}&json=true&page=${page}&page_size=20`
-            : `https://world.openfoodfacts.org/cgi/search.pl?search_terms=&json=true&page=${page}&page_size=20`;
+          let baseUrl = "https://world.openfoodfacts.org/cgi/search.pl?";
+          const params = new URLSearchParams();
+
+          params.append("search_terms", searchQuery || "");
+          params.append("json", "true");
+          params.append("page", page);
+          params.append("page_size", "20");
+
+          if (categoryFilter) {
+            params.append("tagtype_0", "categories");
+            params.append("tag_contains_0", "contains");
+            params.append("tag_0", categoryFilter);
+          }
+
+          url = baseUrl + params.toString();
         }
 
         if (type === "productFromBarcode" && searchQuery) {
@@ -53,7 +65,7 @@ const useProductData = (type, searchQuery) => {
     };
 
     fetchData();
-  }, [type, searchQuery, page]);
+  }, [type, searchQuery, categoryFilter, page]);
 
   return { products, loading, setPage };
 };

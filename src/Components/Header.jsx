@@ -32,7 +32,7 @@ function Header() {
             to="/"
             className="flex items-center gap-2 hover:opacity-90 transition"
           >
-            <div className="text-2xl font-bold">🍎</div>
+            <div className="text-2xl font-bold"></div>
             <div className="font-bold text-xl hidden sm:block">
               Food Explorer
             </div>
@@ -56,53 +56,6 @@ function Header() {
               </button>
             </div>
           </form>
-
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              to="/"
-              className="hover:text-green-100 transition duration-200 font-medium"
-            >
-              Home
-            </Link>
-            <Link
-              to="/"
-              className="hover:text-green-100 transition duration-200 font-medium"
-            >
-              Products
-            </Link>
-            <Link
-              to="/"
-              className="hover:text-green-100 transition duration-200 font-medium"
-            >
-              About
-            </Link>
-            <Link
-              to="/"
-              className="hover:text-green-100 transition duration-200 font-medium"
-            >
-              Contact
-            </Link>
-          </nav>
-
-          {/* Mobile Menu Toggle */}
-          <button className="md:hidden text-2xl hover:opacity-80 transition">
-            ☰
-          </button>
-        </div>
-
-        {/* Category Filter Bar */}
-        <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
-          {["All", "Fruits", "Vegetables", "Dairy", "Grains", "Organic"].map(
-            (category) => (
-              <button
-                key={category}
-                className="px-4 py-2 bg-green-500 hover:bg-green-400 rounded-full text-sm font-medium whitespace-nowrap transition"
-              >
-                {category}
-              </button>
-            ),
-          )}
         </div>
       </div>
     </header>

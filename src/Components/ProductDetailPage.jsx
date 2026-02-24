@@ -30,12 +30,12 @@ function ProductDetailPage() {
     nutriments = {},
     labels,
     labels_tags,
-  } = products;
+  } = products || {};
 
   const image =
     selected_images?.front?.display?.en ||
     selected_images?.front?.display?.fr ||
-    products.image_front_url ||
+    products?.image_front_url ||
     randomFoodImage;
 
   // Build ingredients array from available fields

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const useProuctData = (productDataType, barcode) => {
   const randomPage = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
   const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(randomPage);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const useProuctData = (productDataType, barcode) => {
           const response = await axios.get(
             `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`,
           );
-          setProducts(response.data.products);
+          setProducts(response.data.product);
           console.log("hello");
           
         }

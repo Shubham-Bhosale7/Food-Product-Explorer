@@ -7,18 +7,18 @@ import { useParams } from "react-router-dom";
 function ProductDetailPage() {
   const { id } = useParams();
   const { searchQuery } = useOutletContext() || {};
-  const productData = useProuctData("productFromBarcode", searchQuery || id);
+  const { loading, products, setPage }  = useProuctData("productFromBarcode", searchQuery || id);
+  console.log(products, 'hwll');
 
-  if (!productData?.product) {
-    console.log("are");
-    return <p className="p-4">Loading...</p>;
+  if (loading) {
+    return <p className="w-72 mx-auto text-center mt-6 bg-green-600 text-white px-6 py-2 rounded">Loading...</p>;
   }
 
-  if (productData.status === 0 || !productData.product) {
-    return <p className="p-4">Product not found.</p>;
-  }
+  // if (productData.status === 0 || !productData.product) {
+  //   return <p className="p-4">Product not found.</p>;
+  // }
 
-  const product = productData.product || {};
+  // const product = productData.product || {};
 
   const {
     product_name = "Unknown product",
@@ -30,12 +30,12 @@ function ProductDetailPage() {
     nutriments = {},
     labels,
     labels_tags,
-  } = product;
+  } = products;
 
   const image =
     selected_images?.front?.display?.en ||
     selected_images?.front?.display?.fr ||
-    product.image_front_url ||
+    products.image_front_url ||
     randomFoodImage;
 
   // Build ingredients array from available fields

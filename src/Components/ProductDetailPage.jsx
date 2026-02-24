@@ -1,13 +1,13 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
+// import { useOutletContext } from "react-router-dom";
 import useProuctData from "../hooks/useProductData";
 import randomFoodImage from "../images/randomFoodImage.webp";
 import { useParams } from "react-router-dom";
 
 function ProductDetailPage() {
   const { id } = useParams();
-  const { searchQuery } = useOutletContext() || {};
-  const { loading, products, setPage }  = useProuctData("productFromBarcode", searchQuery || id);
+  console.log(id)
+  const { loading, products, setPage }  = useProuctData("productFromBarcode", id);
   console.log(products, 'hwll');
 
   if (loading) {

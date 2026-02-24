@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import useProuctData from "../hooks/useProductData";
+import { useSearchParams } from "react-router-dom";
 
 // function HomePage() {
 //   const productData = useProuctData("productsFromHomePage");
@@ -36,19 +37,24 @@ import useProuctData from "../hooks/useProductData";
 // }
 
 function HomePage() {
-  const { products, loading, setPage } = useProuctData(
-    "productsFromHomePage",
-  );
+  // const { searchQuery } = useOutletContext() || {};
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search");
+  console.log('Inside home page' + searchQuery)
 
-  if (!products) {
+  const { products, loading, setPage } = useProuctData("productsFromHomePage", searchQuery);
+
+  console.log(products, "products");
+
+  if (loading && products.length === 0) {
     return <p>Loading...</p>;
   }
 
   return (
     <>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4 p-4">
-        {products.map((product) => (
-          <ProductCard key={product.code} product={product} />
+        {products.map((product, i) => (
+          <ProductCard key={`${product.code}-${i}`} product={product} />
         ))}
       </div>
 

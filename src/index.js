@@ -6,13 +6,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import Layout from "./Components/Layout";
 import ProductDetailPage from "./Components/ProductDetailPage";
+import SimilarProductsPage from "./Pages/SimilarProductsPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route index  element={<HomePage />} />
+        {/* <Route path="/product/:search"  element={<HomePage />} /> */}
         <Route path="product/:id" element={<ProductDetailPage />} />
       </Route>
     </Routes>

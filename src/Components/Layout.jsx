@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function Layout() {
   const [searchQuery, setSearchQuery] = useState("");
+  console.log(searchQuery + 'it is a')
   return (
     <>
       <Header setSearchQuery={setSearchQuery} />

@@ -36,22 +36,18 @@ import useProuctData from "../hooks/useProductData";
 // }
 
 function HomePage() {
-  const { productData, loading, setPage } = useProuctData(
+  const { products, loading, setPage } = useProuctData(
     "productsFromHomePage",
   );
 
-  if (!productData?.products) {
+  if (!products) {
     return <p>Loading...</p>;
   }
-
-  const handleLoadMore = () => {
-    setVisibleItemCount((prev) => prev + 10);
-  };
 
   return (
     <>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4 p-4">
-        {productData.products.map((product) => (
+        {products.map((product) => (
           <ProductCard key={product.code} product={product} />
         ))}
       </div>

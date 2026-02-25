@@ -81,7 +81,13 @@ function HomePage() {
   console.log(products, "products");
 
   if (loading && products.length === 0) {
-    return <p>Loading...</p>;
+    return (
+      <div className="text-center mt-6 mb-6">
+        <p className="inline-block bg-green-600 text-white px-6 py-2 rounded">
+          Loading...
+        </p>
+      </div>
+    );
   }
 
   return (
